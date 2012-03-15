@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>jqAmp UI Spinner Demo</title>
+        <meta charset="utf-8" />
+        <link type="text/css" rel="stylesheet" media="screen" href="css/ui-lightness/jquery-ui-1.8.18.custom.css" />
+        <link type="text/css" rel="stylesheet" media="screen" href="../css/jqamp-ui-spinner.css" />
+        <script type="text/javascript" src="depends/jquery-1.7.1.js"></script>
+        <script type="text/javascript" src="depends/jquery-mousewheel-3.0.6.js"></script>
+        <script type="text/javascript" src="depends/jquery-ui-1.8.18.js"></script>
+        <script type="text/javascript" src="../jqamp-ui-spinner.js"></script>
+        <script type="text/javascript">//<![CDATA[
+        $(function()
+        {
+            var btnOpts = {
+                position: 'inside',
+                up: {
+                    icon: 'ui-icon-triangle-1-n',
+                    title: 'Increment the value.'
+                },
+                down: {
+                    icon: 'ui-icon-triangle-1-s',
+                    title: 'Decrement the value.'
+                },
+                defaultAction: 'step',
+                ctrlAction: 'halfStep',
+                shiftAction: 'page'
+            };
+        
+            var opts = {
+                disabled: false,
+                readonly: false,
+                keyboard: {
+                    allowed: null,
+                    upDownArrows: {
+                        defaultAction: 'step',
+                        ctrlAction: 'halfStep',
+                        shiftAction: 'page'
+                    },
+                    pageUpDown: true
+                },
+                mousewheel: {
+                    defaultAction: 'step',
+                    ctrlAction: 'halfStep',
+                    shiftAction: 'page'
+                },
+                buttons: btnOpts,
+                //incremental: true,
+                //delay: 5000,
+                //format: null,
+                //parse: function(val) { return parseFloat(val) || 0; },
+                min: false,
+                max: false,
+                empty: false,
+                //step: 1,
+                //halfStep: 0.5,
+                //page: 10,
+                
+                // Events
+                start: function(event) { writeConsole('Start Event Triggered.'); },
+                spin: function(event, ui) { writeConsole('Spin Event Triggered; value: ' + ui.value); },
+                stop: function(event) { writeConsole('Stop Event Triggered.'); },
+                change: function(event) { writeConsole('Change Event Triggered.'); }
+            };
+            var spinner = $('#test').spinner(opts);
+
+            $('#destroy').toggle(function() { spinner.spinner('destroy'); }, function() { spinner.spinner(opts); });
+            $('#disable').toggle(function() { spinner.spinner('disable'); }, function() { spinner.spinner('enable'); });
+            $('#readonly').toggle(function() { spinner.spinner('readonly'); }, function() { spinner.spinner('editable'); });
+
+            $('#btn_toggle').toggle(function() { spinner.spinner('option', 'buttons', false); }, function() { spinner.spinner('option', 'buttons', btnOpts); });
+            $('#btn_pos').click(function()
+            {
+                switch(btnOpts.position)
+                {
+                    case 'inside': btnOpts.position = 'outside'; break;
+                    case 'outside': btnOpts.position = 'inside'; break;
+                    case 'insideStacked': btnOpts.position = 'outsideStacked'; break;
+                    case 'outsideStacked': btnOpts.position = 'insideStacked'; break;
+                }
+                spinner.spinner('option', 'buttons', btnOpts);
+            });
+            $('#btn_stacked').click(function()
+            {
+                switch(btnOpts.position)
+                {
+                    case 'inside': btnOpts.position = 'insideStacked'; break;
+                    case 'outside': btnOpts.position = 'outsideStacked'; break;
+                    case 'insideStacked': btnOpts.position = 'inside'; break;
+                    case 'outsideStacked': btnOpts.position = 'outside'; break;
+                }
+                spinner.spinner('option', 'buttons', btnOpts);
+            });
+
+            $('#getvalue').click(function() { alert(spinner.spinner('value')); });
+            $('#setvalue').click(function() { spinner.spinner('value', 5); });
+            $('#maxvalue').toggle(function() { spinner.spinner('option', 'max', 20); }, function() { spinner.spinner('option', 'max', false); });
+            $('#minvalue').toggle(function() { spinner.spinner('option', 'min', -20); }, function() { spinner.spinner('option', 'min', false); });
+            $('#emptyvalue').toggle(function() { spinner.spinner('option', 'empty', 0); }, function() { spinner.spinner('option', 'empty', false); });
+
+            $('#spinup').click(function() { spinner.spinner('spinStart', 10000, false); });
+            $('#spindown').click(function() { spinner.spinner('spinStart', 10000, true); });
+            $('#stop').click(function() { spinner.spinner('spinStop'); });
+            $('button').button();
+            
+            var console = $('#console');
+            $('#console_clear').click(function() { console.html(''); return false; });
+            function writeConsole(val)
+            {
+                console.append(val + '\n').scrollTop(console.prop('scrollHeight'));
+            }
+        });
+        //]]></script>
+        <style type="text/css">
+        #console { height: 200px; overflow: auto; border: 1px solid #000; }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="test" value="0" />
+        <p>
+            <button id="destroy">Toggle widget</button>
+	        <button id="disable">Toggle disable/enable</button>
+            <button id="readonly">Toggle readonly/editable</button>
+        </p>
+        <p>
+            <button id="btn_toggle">Toggle Buttons</button>
+            <button id="btn_pos">Toggle Buttons Inside/Outside</button>
+            <button id="btn_stacked">Toggle Buttons Stacked/Adjacent</button>
+        </p>
+        <p>
+	        <button id="getvalue">Get value</button>
+	        <button id="setvalue">Set value to 5</button>
+            <button id="maxvalue">Toggle Max Value 20</button>
+            <button id="minvalue">Toggle Min Value -20</button>
+            <button id="emptyvalue">Toggle Empty Value 0</button>
+        </p>
+        <p>
+	        <button id="spinup">Spin Up (10 seconds)</button>
+            <button id="spindown">Spin Down (10 seconds)</button>
+	        <button id="stop">Stop Spinning</button>
+        </p>
+        <p>
+            Event Console: (<a href="#" id="console_clear">clear</a>)
+            <pre id="console"></pre>
+        </p>
+    </body>
+</html>
