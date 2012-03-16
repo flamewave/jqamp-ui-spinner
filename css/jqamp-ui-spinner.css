@@ -38,7 +38,7 @@
 .ui-spinner.ui-spinner-outside.ui-spinner-adjacent .ui-spinner-button { height: 1.55em; }
 .ui-spinner.ui-spinner-outside.ui-spinner-stacked .ui-spinner-button { height: .775em; }
 
-.ui-spinner.ui-spinner-inside .ui-spinner-input { border: none; background: none; padding: 0; margin: .2em .4em; }
+.ui-spinner.ui-spinner-inside .ui-spinner-input { border: none; background: none; padding: 0 1px 0 0; margin: .2em .4em; } /* IE requires a right padding of 1px otherwise the cursor becomes hidden when the input is empty */
 .ui-spinner.ui-spinner-inside a.ui-spinner-button { border-top: none; border-bottom: none; border-right: none; } /* more specificity required here to overide default borders */
 .ui-spinner.ui-spinner-inside.ui-spinner-adjacent .ui-spinner-button { height: 100%; }
 .ui-spinner.ui-spinner-inside.ui-spinner-stacked .ui-spinner-button { height: 53%; }

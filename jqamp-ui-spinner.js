@@ -68,6 +68,8 @@
         },
 
         uiSpinner: null,
+        document: null,
+        window: null,
 
         _timeout: null,
         _interval: null,
@@ -83,6 +85,8 @@
         _create: function()
         {
             var element = this.element, uiSpinner, options = this.options, $this = this;
+            this.document = $(element.style ? element.ownerDocument : element.document || element);
+            this.window = this.document[0].defaultView || this.document[0].parentWindow;
             this._setValue(this._parse(element.val()), false, false);
 
             // load min, max, and step from input attributes
@@ -150,7 +154,7 @@
                 this._setOption('readonly', true);
 
             // Turning off autocomplete prevents browser from remembering value when navigating history; re-enable autocomplete if page is unloaded before widget is destroyed.
-            $(window).bind('beforeunload.spinner', function() { element.removeAttr('autocomplete'); });
+            $(this.window).bind('beforeunload.spinner', function() { element.removeAttr('autocomplete'); });
         },
 
         _uiSpinnerHtml: function()
@@ -160,6 +164,7 @@
 
         destroy: function()
         {
+            $(this.window).unbind('beforeunload.spinner');
             this.element.siblings('.ui-spinner-button').remove();
             this.element.unbind('.spinner')
                 .unwrap()
@@ -193,7 +198,7 @@
 
             this.uiSpinner.removeClass('ui-spinner-nobuttons').addClass(stacked ? 'ui-spinner-stacked' : 'ui-spinner-adjacent');
 
-            var element = this.element[0], document = element.style ? element.ownerDocument : element.document || element;
+            var element = this.element[0], document = this.document;
             this.uiSpinner.append(this._buttonHtml(stacked, inside))
                 .children('.ui-spinner-button')
                 .attr('tabIndex', -1)
@@ -932,7 +937,7 @@
         if (value === false)
             return this.removeAttr(name);
 
-        return this.attr(name, value);
+        return this.attr(name, value === true ? name : value);
     }
 
     $.isControlKey = function(keyCode)
