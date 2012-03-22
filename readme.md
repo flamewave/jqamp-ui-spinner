@@ -1,5 +1,5 @@
 # jQuery Amplified UI Spinner
-*For jQuery/jQuery UI*
+*For jQuery/jQuery UI*  
 *Version 1.0*
 
 *Copyright 2012, Tony Kramer*  
