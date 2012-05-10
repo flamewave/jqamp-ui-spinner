@@ -459,7 +459,7 @@
             }
             catch (e)
             {
-                throw 'SpinnerException: Unable to parse the value specified without a custom parser (parse option).';
+                throw 'SpinnerException: Unable to parse the value specified without a custom parser (parse option). Reason: ' + e;
             }
         },
 
@@ -485,7 +485,7 @@
             }
             catch (e)
             {
-                throw 'SpinnerException: Unable to convert value to a string without a custom converter (format option).';
+                throw 'SpinnerException: Unable to convert value to a string without a custom converter (format option). Reason: ' + e;
             }
         },
 
@@ -932,12 +932,12 @@
     $.fn._prop = function(name, value)
     {
         if (this.prop)
-            return this.prop(name, value);
+            return value === undefined ? this.prop(name) : this.prop(name, value);
 
         if (value === false)
             return this.removeAttr(name);
 
-        return this.attr(name, value === true ? name : value);
+        return value === undefined ? this.attr(name) : this.attr(name, value === true ? name : value);
     }
 
     $.isControlKey = function(keyCode)
