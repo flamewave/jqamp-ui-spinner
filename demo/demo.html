@@ -8,7 +8,10 @@
         <script type="text/javascript" src="depends/jquery-1.7.1.js"></script>
         <script type="text/javascript" src="depends/jquery-mousewheel-3.0.6.js"></script>
         <script type="text/javascript" src="depends/jquery-ui-1.8.18.js"></script>
+        <script type="text/javascript" src="depends/globalize.js"></script>
+        <script type="text/javascript" src="depends/globalize.culture.en-US.js"></script>
         <script type="text/javascript" src="../jqamp-ui-spinner.js"></script>
+        <script type="text/javascript" src="../jqamp-ui-spinner-numeric.js"></script>
         <script type="text/javascript">//<![CDATA[
         $(function()
         {
@@ -64,6 +67,8 @@
             };
             var spinner = $('#test').spinner(opts);
 
+            var numeric = $("#numeric").numeric({ format: "c", culture: "en-US" });
+            
             $('#destroy').toggle(function() { spinner.spinner('destroy'); }, function() { spinner.spinner(opts); });
             $('#disable').toggle(function() { spinner.spinner('disable'); }, function() { spinner.spinner('enable'); });
             $('#readonly').toggle(function() { spinner.spinner('readonly'); }, function() { spinner.spinner('editable'); });
@@ -143,5 +148,7 @@
             Event Console: (<a href="#" id="console_clear">clear</a>)
             <pre id="console"></pre>
         </p>
+        <hr />
+        <input type="text" id="numeric" value="0" />
     </body>
 </html>
